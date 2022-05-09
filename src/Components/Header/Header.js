@@ -1,10 +1,19 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { findSpaceships } from "../../ReduxComponents/Slices/SpaceshipSlices";
 
 const Header = () => {
   const [searchText, setSearchText] = useState("");
-  const searchHandle = (e) => {
+  const spaceships = useSelector((state) => state.spaceships.spaceshipList);
+  const searchResults = useSelector(
+    (state) => state.spaceships.searchSpaceshipsList
+  );
+
+
+  const dispatch = useDispatch();
+  const handleSearch = (e) => {
     e.preventDefault();
-    console.log(searchText);
+    dispatch(findSpaceships(searchText));
     e.target.reset();
   };
 
@@ -29,7 +38,7 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <form
               className="d-flex flex-lg-nowrap flex-wrap ms-auto"
-              onSubmit={searchHandle}
+              onSubmit={handleSearch}
             >
               <select name="Launch Date" id="" className="m-1 rounded">
                 <option value="">Launch Date</option>
@@ -61,6 +70,10 @@ const Header = () => {
           </div>
         </div>
       </nav>
+      <div className="text-warning fw-bold text-center pb-3">
+        <h1>Total Result {spaceships.length}</h1>
+        <h1>Search Result {searchResults.length}</h1>
+      </div>
     </div>
   );
 };

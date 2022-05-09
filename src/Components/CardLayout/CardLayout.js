@@ -13,7 +13,7 @@ const CardLayout = (props) => {
       <div className="card h-100 shadow rounded">
         <div className="card-body">
           <img
-            className="rounded-circle p-2 img-thumbnail"
+            className="rounded-circle p-2 img-fluid"
             src={mission_patch}
             alt=""
           />
