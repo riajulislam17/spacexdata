@@ -10,23 +10,14 @@ const Home = () => {
     dispatch(fetchSpaceships());
   }, [dispatch]);
 
-  const spaceships = useSelector((state) => state.spaceships.spaceshipList);
-  const searchResults = useSelector(
-    (state) => state.spaceships.searchSpaceshipsList
-  );
+  const spaceships = useSelector((state) => state.spaceships.displayResultList);
 
   return (
     <div className="container-fluid rounded">
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-2 border border-0 py-3">
-        {searchResults.length === 0 ?
-          spaceships.map((spaceship) => (
-              <CardLayout key={spaceship.flight_number} spaceship={spaceship} />
-            ))
-            :
-            searchResults.map((spaceship) => (
-              <CardLayout key={spaceship.flight_number} spaceship={spaceship} />
-            ))
-        }
+        {spaceships.slice(0,109).map((spaceship) => (
+          <CardLayout key={spaceship.flight_number} spaceship={spaceship} />
+        ))}
       </div>
     </div>
   );

@@ -1,20 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { findSpaceships } from "../../ReduxComponents/Slices/SpaceshipSlices";
+import { filterLaunchStatus, filterUpcomingStatus, findSpaceships } from "../../ReduxComponents/Slices/SpaceshipSlices";
 
 const Header = () => {
   const [searchText, setSearchText] = useState("");
-  const spaceships = useSelector((state) => state.spaceships.spaceshipList);
-  const searchResults = useSelector(
-    (state) => state.spaceships.searchSpaceshipsList
-  );
 
+  const spaceships = useSelector((state) => state.spaceships.displayResultList);
 
   const dispatch = useDispatch();
   const handleSearch = (e) => {
     e.preventDefault();
     dispatch(findSpaceships(searchText));
     e.target.reset();
+  };
+
+  const handleFilterLaunchStatus = (e) => {
+    e.preventDefault();
+    dispatch(filterLaunchStatus(e.target.value));
+  };
+
+  const handleFilterUpcomingStatus = (e) => {
+    e.preventDefault();
+    dispatch(filterUpcomingStatus(e.target.value));
   };
 
   return (
@@ -36,43 +43,52 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <form
-              className="d-flex flex-lg-nowrap flex-wrap ms-auto"
-              onSubmit={handleSearch}
-            >
+            <div className="d-flex flex-lg-nowrap flex-wrap ms-auto">
               <select name="Launch Date" id="" className="m-1 rounded">
                 <option value="">Launch Date</option>
                 <option value="">Last Week</option>
                 <option value="">Last Month</option>
-                <option value="">Last Year</option>
+                <option value={new Date().getFullYear()}>Last Year</option>
               </select>
-              <select name="Launch Status" id="" className="m-1 rounded">
-                <option value="">Launch Status</option>
-                <option value="">Failure</option>
-                <option value="">Success</option>
+
+              <select
+                name="Launch Status"
+                className="m-1 rounded"
+                onChange={handleFilterLaunchStatus}
+              >
+                <option>Launch Status</option>
+                <option value="1">Success</option>
+                <option value="0">Failure</option>
               </select>
-              <select name="Upcoming" id="" className="m-1 rounded">
-                <option value="">Upcoming</option>
-                <option value="">True</option>
-                <option value="">False</option>
+
+              <select
+                name="Upcoming"
+                className="m-1 rounded"
+                onChange={handleFilterUpcomingStatus}
+              >
+                <option value="2">Upcoming</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
               </select>
-              <input
-                className="form-control w-50 m-1 "
-                type="search"
-                placeholder="Search by Rocket Name"
-                aria-label="Search"
-                onChange={(e) => setSearchText(e.target.value)}
-              />
-              <button className="btn btn-success fw-bold m-1" type="submit">
-                Search
-              </button>
-            </form>
+
+              <form name="search" className="d-flex" onSubmit={handleSearch}>
+                <input
+                  className="form-control w-75 m-1 "
+                  type="search"
+                  placeholder="Search by Rocket Name"
+                  aria-label="Search"
+                  onChange={(e) => setSearchText(e.target.value)}
+                />
+                <button className="btn btn-success fw-bold m-1" type="submit">
+                  Search
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </nav>
       <div className="text-warning fw-bold text-center pb-3">
-        <h1>Total Result {spaceships.length}</h1>
-        <h1>Search Result {searchResults.length}</h1>
+        <h3 className="mx-2 p-1 border border-danger border-3">Shown Result: {spaceships.length}</h3>
       </div>
     </div>
   );
