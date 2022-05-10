@@ -18,6 +18,7 @@ export const spaceshipSlice = createSlice({
     searchSpaceshipsList: [],
     filterLaunchStatusSpaceshipsList: [],
     filterUpcomingStatusSpaceshipsList: [],
+    filterLaunchDateSpaceshipsList: [],
   },
   reducers: {
     findSpaceships: (state, actions) => {
@@ -34,7 +35,7 @@ export const spaceshipSlice = createSlice({
         let selectedValue = parseInt(actions.payload) === 0 ? false : true;
         return Spaceship.launch_success === selectedValue;
       });
-      state.filterLaunchStatusSpaceshipsList = state.displayResultList;
+      state.filterLaunchDateSpaceshipsList = state.displayResultList;
     },
 
     filterUpcomingStatus: (state, actions) => {
@@ -44,6 +45,12 @@ export const spaceshipSlice = createSlice({
       });
       state.filterUpcomingStatusSpaceshipsList = state.displayResultList;
     },
+
+    filterLaunchDateStatus: (state, actions) => {
+      state.displayResultList = state.spaceshipList.filter((Spaceship) => Spaceship.launch_date_unix === actions.payload);
+      state.filterLaunchStatusSpaceshipsList = state.displayResultList;
+    },
+
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSpaceships.fulfilled, (state, actions) => {
@@ -58,5 +65,6 @@ export const {
   findSpaceships,
   filterLaunchStatus,
   filterUpcomingStatus,
+  filterLaunchDateStatus,
 } = spaceshipSlice.actions;
 export default spaceshipSlice.reducer;

@@ -1,7 +1,7 @@
 import React from "react";
 
 const CardLayout = (props) => {
-  const { mission_name, launch_year, flight_number } = props.spaceship;
+  const { mission_name, launch_year } = props.spaceship;
   const { rocket_name, rocket_type } = props.spaceship.rocket;
   const { mission_patch } = props.spaceship.links;
   const { site_name } = props.spaceship.launch_site;
