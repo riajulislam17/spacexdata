@@ -112,9 +112,9 @@ const Header = () => {
           </div>
         </div>
       </nav>
-      <div className="text-light fw-bolder  text-center py-3">
+      <div className="text-light fw-bolder text-center py-3">
         <h3>
-          <strong className="p-2 rounded border border-info border-2 shadow-lg bg-info">
+          <strong className="py-2 px-5 rounded shadow-lg border border-light border-2">
             {spaceships.length} Result Found
           </strong>
         </h3>

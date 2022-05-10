@@ -3,7 +3,7 @@ import React from "react";
 const CardLayout = (props) => {
   const { mission_name, launch_year } = props.spaceship;
   const { rocket_name, rocket_type } = props.spaceship.rocket;
-  const { mission_patch } = props.spaceship.links;
+  const { mission_patch, wikipedia } = props.spaceship.links;
   const { site_name } = props.spaceship.launch_site;
   const [{ manufacturer, orbit, nationality }] =
     props.spaceship.rocket.second_stage.payloads;
@@ -46,6 +46,17 @@ const CardLayout = (props) => {
             <span className="fw-bold">Nationality:</span> {nationality}
           </h6>
         </div>
+        <h6 className="card-footer">
+          <span className="fw-bold">More Details:</span>{" "}
+          <a
+            className="text-decoration-none"
+            href={wikipedia}
+            target="_blank"
+            rel="noreferrer"
+          >
+            See More
+          </a>
+        </h6>
       </div>
     </div>
   );
