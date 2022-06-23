@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   filterLaunchStatus,
@@ -6,9 +6,13 @@ import {
   findSpaceships,
   filterLaunchDateStatus,
 } from "../../ReduxComponents/Slices/SpaceshipSlices";
+import logo from "../../Images/logo.png";
 
 const Header = () => {
   const [searchText, setSearchText] = useState("");
+  const [filterLaunchStatusValue, setFilterLaunchStatusValue] = useState("");
+  const [filterUpcomingStatusValue, setFilterUpcomingStatusValue] =
+    useState("");
 
   const spaceships = useSelector((state) => state.spaceships.displayResultList);
 
@@ -19,15 +23,13 @@ const Header = () => {
     e.target.reset();
   };
 
-  const handleFilterLaunchStatus = (e) => {
-    e.preventDefault();
-    dispatch(filterLaunchStatus(e.target.value));
-  };
+  useEffect(() => {
+    dispatch(filterLaunchStatus(filterLaunchStatusValue));
+  }, [dispatch, filterLaunchStatusValue]);
 
-  const handleFilterUpcomingStatus = (e) => {
-    e.preventDefault();
-    dispatch(filterUpcomingStatus(e.target.value));
-  };
+  useEffect(() => {
+    dispatch(filterUpcomingStatus(filterUpcomingStatusValue));
+  }, [dispatch, filterUpcomingStatusValue]);
 
   const handleFilterLaunchDate = (e) => {
     e.preventDefault();
@@ -48,8 +50,14 @@ const Header = () => {
     <div className="container-fluid bg-dark sticky-top">
       <nav className="navbar navbar-expand-lg navbar-light p-2">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
-            <h1 className="text-light">SpaceX</h1>
+          <a className="navbar-brand d-flex" href="/">
+            <img
+              className="img-fluid me-1 rounded-circle"
+              src={logo}
+              style={{ height: "70px", width: "100px" }}
+              alt=""
+            />
+            <h1 className="text-light ms-1">SpaceX</h1>
           </a>
           <button
             className="navbar-toggler bg-secondary"
@@ -78,7 +86,7 @@ const Header = () => {
               <select
                 name="Launch Status"
                 className="m-1 rounded"
-                onChange={handleFilterLaunchStatus}
+                onChange={(e) => setFilterLaunchStatusValue(e.target.value)}
               >
                 <option>Select Launch Status</option>
                 <option value="1">Launch Success</option>
@@ -88,7 +96,7 @@ const Header = () => {
               <select
                 name="Upcoming"
                 className="m-1 rounded"
-                onChange={handleFilterUpcomingStatus}
+                onChange={(e) => setFilterUpcomingStatusValue(e.target.value)}
               >
                 <option>Select Upcoming</option>
                 <option value="1">Upcoming Yes</option>
@@ -104,7 +112,10 @@ const Header = () => {
                   onChange={(e) => setSearchText(e.target.value)}
                   required
                 />
-                <button className="btn btn-success shadow fw-bold m-1" type="submit">
+                <button
+                  className="btn btn-success shadow fw-bold m-1"
+                  type="submit"
+                >
                   Search
                 </button>
               </form>

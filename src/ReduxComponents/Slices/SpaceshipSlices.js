@@ -12,6 +12,7 @@ export const fetchSpaceships = createAsyncThunk(
 
 export const spaceshipSlice = createSlice({
   name: "spaceships",
+  status: "idle",
   initialState: {
     spaceshipList: [],
     displayResultList: [],
@@ -47,15 +48,23 @@ export const spaceshipSlice = createSlice({
     },
 
     filterLaunchDateStatus: (state, actions) => {
-      state.displayResultList = state.spaceshipList.filter((Spaceship) => Spaceship.launch_date_unix === actions.payload);
+      state.displayResultList = state.spaceshipList.filter(
+        (Spaceship) => Spaceship.launch_date_unix === actions.payload
+      );
       state.filterLaunchStatusSpaceshipsList = state.displayResultList;
     },
-
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchSpaceships.pending, (state, actions) => {
+      state.status = "pending";
+    });
     builder.addCase(fetchSpaceships.fulfilled, (state, actions) => {
       state.spaceshipList = actions.payload;
       state.displayResultList = actions.payload;
+      state.status = "success";
+    });
+    builder.addCase(fetchSpaceships.rejected, (state, actions) => {
+      state.status = "rejected";
     });
   },
 });
