@@ -18,7 +18,7 @@ const Home = () => {
 
   const status = useSelector((state) => state.spaceships.status);
 
-  const size = 8;
+  const size = 12;
   const totalPages = Math.ceil(displayList.length / size);
   const [page, setPage] = useState(1);
   const endPoint = page * size;
@@ -42,30 +42,34 @@ const Home = () => {
         <NotFound></NotFound>
       )}
 
+      {/* Pagination */}
       <div className="my-2">
         <nav aria-label="...">
-          <div className="pagination flex-wrap pagination-sm justify-content-end">
+          <div className="pagination pagination-sm justify-content-end">
             <button
               onClick={() => {
-                page === 1 ? setPage(1) : setPage(page - 1);
+                page <= 1 ? setPage(1) : setPage(page - 1);
                 return page;
               }}
               className={
                 page === 1
-                  ? "disabled fw-bold mx-1 rounded-pill border border-primary border shadow"
-                  : "page-link fw-bold mx-1 rounded-pill border border-dark border shadow"
+                  ? "mx-1 rounded-pill px-3 py-1"
+                  : "mx-1 rounded-pill px-3 py-1"
               }
+              disabled={page <= 1}
             >
               <i className="fas fa-arrow-left"></i>
             </button>
             {[...Array(totalPages).keys()].map((number) => (
               <button
                 key={number}
-                onClick={() => setPage(number + 1)}
+                onClick={() => {
+                  setPage(number + 1);
+                }}
                 className={
-                  number === page
-                    ? "page-item active mx-1 fw-bold mx-1 rounded-pill border border-primary border shadow"
-                    : "fw-bold mx-1 rounded-pill border border-primary border shadow"
+                  number + 1 === page
+                    ? "text-light fw-bold shadow bg-secondary mx-1 rounded-pill px-3 py-1"
+                    : "mx-1 rounded-pill px-3 py-1"
                 }
               >
                 {number + 1}
@@ -73,14 +77,15 @@ const Home = () => {
             ))}
             <button
               onClick={() => {
-                page === totalPages ? setPage(totalPages) : setPage(page + 1);
+                page >= totalPages ? setPage(totalPages) : setPage(page + 1);
                 return page;
               }}
               className={
                 page === totalPages
-                  ? "disabled fw-bold mx-1 rounded-pill border border-primary border shadow"
-                  : "page-link fw-bold mx-1 rounded-pill border border-dark border shadow"
+                  ? "mx-1 rounded-pill px-3 py-1"
+                  : "mx-1 rounded-pill px-3 py-1"
               }
+              disabled={page >= totalPages}
             >
               <i className="fas fa-arrow-right"></i>
             </button>

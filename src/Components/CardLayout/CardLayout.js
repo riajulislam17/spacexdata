@@ -10,7 +10,7 @@ const CardLayout = (props) => {
 
   return (
     <div>
-      <div className="card h-100 shadow rounded">
+      <div className="card h-100 shadow rounded border border-1 border-success">
         <div className="card-body">
           <img
             className="rounded-circle p-2 img-fluid"
